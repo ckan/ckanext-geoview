@@ -5,9 +5,9 @@ openlayers_js:
     preload:
       - base/main
   contents:
-    - js/vendor/underscore/underscore.js
-    - js/vendor/proj4/dist/proj4-src.js
-    - js/vendor/openlayers/ol-debug.js
+    - js/vendor/underscore/underscore-min.js
+    - js/vendor/proj4/proj4.js
+    - js/vendor/openlayers/ol.js
     - js/vendor/ol-helpers/ol-helpers.js
     - js/vendor/ol-helpers/ol-layer-switcher.js
     - js/ol_preview.js
@@ -30,16 +30,16 @@ geojson_js:
     preload:
       - base/main
   contents:
-    - js/vendor/leaflet/dist/leaflet.js
-    - js/vendor/leaflet-providers.js
-    - js/vendor/proj4js/proj4.js
-    - js/vendor/proj4leaflet/src/proj4leaflet.js
+    - js/vendor/leaflet/leaflet.js
+    - js/vendor/leaflet-providers/leaflet-providers.js
+    - js/vendor/proj4/proj4.js
+    - js/vendor/proj4leaflet/proj4leaflet.js
     - js/common_map.js
     - js/geojson_preview.js
 geojson_css:
   output: ckanext-geoview/%(version)s_geojson.css
   contents:
-    - js/vendor/leaflet/dist/leaflet.css
+    - js/vendor/leaflet/leaflet.css
     - css/geojson_preview.css
 
 wmts_js:
@@ -49,29 +49,16 @@ wmts_js:
     preload:
       - base/main
   contents:
-    - js/vendor/leaflet/dist/leaflet.js
-    - js/vendor/leaflet-providers.js
-    - js/vendor/proj4js/proj4.js
+    - js/vendor/leaflet/leaflet.js
+    - js/vendor/leaflet-providers/leaflet-providers.js
+    - js/vendor/proj4/proj4.js
     - js/common_map.js
     - js/wmts_preview.js
 wmts_css:
   output: ckanext-geoview/%(version)s_wmts.css
   contents:
-    - js/vendor/leaflet/dist/leaflet.css
+    - js/vendor/leaflet/leaflet.css
     - css/wmts_preview.css
-
-bootstrap2_js:
-  filter: rjsmin
-  output: ckanext-geoview/%(version)s_bootstrap2.js
-  extra:
-    preload:
-      - base/main
-  contents:
-    - js/vendor/bootstrap2/bootstrap.js
-bootstrap2_css:
-  output: ckanext-geoview/%(version)s_bootstrap2.css
-  contents:
-    - js/vendor/bootstrap2/bootstrap.css
 
 shp_js:
   filter: rjsmin
@@ -80,19 +67,19 @@ shp_js:
     preload:
       - base/main
   contents:
-    - js/vendor/leaflet/dist/leaflet.js
-    - js/vendor/leaflet-providers.js
-    - js/vendor/proj4js/proj4.js
-    - js/vendor/spinjs/spin.js
-    - js/vendor/leaflet.spin/leaflet.spin.js
+    - js/vendor/leaflet/leaflet.js
+    - js/vendor/leaflet-providers/leaflet-providers.js
+    - js/vendor/spin.js/spin.js
+    - js/vendor/leaflet-spin/leaflet.spin.js
+    - js/vendor/proj4/proj4.js
     - js/vendor/shp2geojson/preview.js
     - js/vendor/shp2geojson/preprocess.js
-    - js/vendor/jszip/jszip.js
-    - js/vendor/jszip/jszip-utils.js
+    - js/vendor/jszip/jszip.min.js
+    - js/vendor/jszip-utils/jszip-utils.min.js
     - js/common_map.js
     - js/shp_preview.js
 shp_css:
   output: ckanext-geoview/%(version)s_shp.css
   contents:
-    - js/vendor/leaflet/dist/leaflet.css
+    - js/vendor/leaflet/leaflet.css
     - css/shp_preview.css

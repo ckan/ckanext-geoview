@@ -319,9 +319,27 @@ http://docs.ckan.org/projects/ckanext-spatial/en/latest/map-widgets.html
 
 .. _widgets: http://docs.ckan.org/projects/ckanext-spatial/en/latest/spatial-search.html#spatial-search-widget
 
+> [!WARNING]  
+> As of July 2024 the common map configuration is not working with the OpenLayers viewer. Pull requests are welcome to address the issue
+
+-------------------------
+Updating the JS libraries
+-------------------------
+
+To update a JS library to a new version:
+
+1. Update the version number in ``package.json``
+2. Run ``npm install``
+3. Run ``npm run update-libs``
+
+The following libraries are managed manually as they don't have npm packages:
+
+* ol-helpers
+* shp2geojson
+
 
 -----------------------------------
-Registering ckanext-geoview on PyPI
+Registering ckanext-geoview on pypi
 -----------------------------------
 
 ckanext-geoview should be availabe on PyPI as
