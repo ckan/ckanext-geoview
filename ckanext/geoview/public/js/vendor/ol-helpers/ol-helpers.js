@@ -1094,32 +1094,21 @@ ol.proj.addProjection(createEPSG4326Proj('EPSG:4326:LONLAT', 'enu'));
 
     OL_HELPERS.createKMLLayer = function (url) {
 
-        // use a custom loader to set source state
-        var kmlLoader = ol.featureloader.loadFeaturesXhr(
-            url,
-            new OL_HELPERS.format.KML({
-                onread: function(node) {
-                    var nameNode = node.querySelector(":scope > name");
-                    var name = nameNode && nameNode.textContent;
-                    name && kml.set('title', name);
-                }
-            }),
-            function(features, dataProjection) {
-                this.addFeatures(features);
-                // set source as ready once features are loaded
-                this.setState(ol.source.State.READY);
-                source.set('waitingOnFirstData', false)
-            },
-            /* FIXME handle error */ ol.nullFunction);
-
-        var source = new ol.source.Vector({
-            loader: function(extent, resolution, projection) {
-                // set source as loading before reading the KML
-                this.setState(ol.source.State.LOADING);
-                return kmlLoader.call(this, extent, resolution, projection)
+        var format = new OL_HELPERS.format.KML({
+            onread: function(node) {
+            	var nameNode = node.querySelector(":scope > name");
+            	var name = nameNode && nameNode.textContent;
+            	name && kml.set('title', name);
             }
-        });
-        //set state as loading to be able to listen on load and grab extent after init
+    	});
+
+   	var source = new ol.source.Vector({
+            format: format,
+            url: url,
+            strategy: ol.loadingstrategy.all
+    	});
+
+	//set state as loading to be able to listen on load and grab extent after init
         source.set('waitingOnFirstData', true)
 
         var kml = new ol.layer.Vector({
