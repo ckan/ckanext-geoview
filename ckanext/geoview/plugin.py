@@ -3,8 +3,7 @@
 import os
 import logging
 import mimetypes
-from six.moves.urllib.parse import urlparse
-
+from urllib.parse import urlparse
 
 from ckan import plugins as p
 from ckan.common import json
@@ -12,16 +11,21 @@ from ckan.lib.datapreview import on_same_domain
 from ckan.plugins import toolkit
 
 import ckanext.geoview.utils as utils
-
-if toolkit.check_ckan_version("2.9"):
-    from ckanext.geoview.plugin.flask_plugin import GeoViewMixin
-else:
-    from ckanext.geoview.plugin.pylons_plugin import GeoViewMixin
+from ckanext.geoview.views import get_blueprints
 
 ignore_empty = toolkit.get_validator("ignore_empty")
 boolean_validator = toolkit.get_validator("boolean_validator")
 
 log = logging.getLogger(__name__)
+
+
+class GeoViewMixin(p.SingletonPlugin):
+    p.implements(p.IBlueprint)
+
+    # IBlueprint
+
+    def get_blueprint(self):
+        return get_blueprints()
 
 
 class GeoViewBase(p.SingletonPlugin):
@@ -43,9 +47,9 @@ class GeoViewBase(p.SingletonPlugin):
         )
 
     def update_config(self, config):
-        toolkit.add_public_directory(config, "../public")
-        toolkit.add_template_directory(config, "../templates")
-        toolkit.add_resource("../public", "ckanext-geoview")
+        toolkit.add_public_directory(config, "public")
+        toolkit.add_template_directory(config, "templates")
+        toolkit.add_resource("public", "ckanext-geoview")
 
         self.proxy_enabled = "resource_proxy" in toolkit.config.get(
             "ckan.plugins", ""
