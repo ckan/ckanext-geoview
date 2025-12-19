@@ -199,7 +199,7 @@ This file is a JSON encoded array of basemap definitions reproducing the structu
     {
         "title": "OSM",
         "type" : "custom",
-        "url" : "http://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "url" : "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         "attribution" : " Map tiles & Data by OpenStreetMap, under CC BY SA."
     },
     {
