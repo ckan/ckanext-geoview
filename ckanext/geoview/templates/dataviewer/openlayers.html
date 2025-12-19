@@ -24,7 +24,7 @@
         <div class="layerswitcher olControlLayerSwitcher"></div>
     </div>
 
-    {% set type = 'asset' if h.ckan_version().split('.')[1] | int >= 9 else 'resource' %}
-    {% include 'geoview/snippets/openlayers_' ~ type ~ '.html' %}
+    {% asset 'ckanext-geoview/openlayers_js' %}
+    {% asset 'ckanext-geoview/openlayers_css' %}
 
 {% endblock %}

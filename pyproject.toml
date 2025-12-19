@@ -1,0 +1,46 @@
+[project]
+name = "ckanext-geoview"
+version = "0.2.2"
+description = "Geospatial viewers for CKAN resources"
+readme = "README.md"
+authors = [
+    {name = "Philippe Duchesne, Adrià Mercader and contributors", email = "tech-team@ckan.org"}
+]
+maintainers = [
+    {name = "CKAN Tech Team and contributors", email = "tech-team@ckan.org"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Intended Audience :: Developers",
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13"
+]
+keywords = [
+    "ckan",
+    "ckanext",
+    "geospatial",
+    "openlayers",
+    "leaflet",
+    "wms",
+    "wfs",
+    "geojson"
+]
+
+[project.urls]
+Repository = "https://github.com/ckan/ckanext-geoview"
+Issues = "https://github.com/ckan/ckanext-geoview/issues"
+
+[build-system]
+requires = ["setuptools>=62.6.0"]
+build-backend = "setuptools.build_meta"
+
+[project.entry-points."ckan.plugins"]
+geo_view = "ckanext.geoview.plugin:OLGeoView"
+geojson_view = "ckanext.geoview.plugin:GeoJSONView"
+wmts_view = "ckanext.geoview.plugin:WMTSView"
+shp_view = "ckanext.geoview.plugin:SHPView"

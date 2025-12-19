@@ -2,8 +2,10 @@
 
 {% block page %}
     {%- block styles %}
-        {% set type = 'asset' if h.ckan_version().split('.')[1] | int >= 9 else 'resource' %}
-        {% include 'geoview/snippets/geojson_' ~ type ~ '.html' %}
+        {% set theme = h.get_rtl_theme() if h.is_rtl_language() else g.theme %}
+        {% asset theme %}
+        {% asset 'ckanext-geoview/geojson_js' %}
+        {% asset 'ckanext-geoview/geojson_css' %}
     {% endblock %}
     {% set map_config = h.get_common_map_config_geojson() %}
     <div data-module="geojsonpreview" id="data-preview"
