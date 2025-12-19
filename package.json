@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "description": "CKAN Geospatial ResourceView",
   "dependencies": {
-    "jszip": "2.6.0",
+    "jszip": "2.7.0",
     "jszip-utils": "0.1.0",
     "leaflet": "1.9.4",
-    "leaflet-providers": "2.0.0",
+    "leaflet-providers": "3.0.0",
     "leaflet-spin": "1.1.2",
-    "ol": "9.2.4",
+    "ol": "10.7.0",
+    "proj4": "^2.20.2",
     "proj4leaflet": "1.0.2",
-    "proj4": "^2.11.0",
     "spin.js": "2.3.2",
-    "underscore": "1.13.6"
+    "underscore": "1.13.7"
   },
   "repository": {
     "type": "git",
