@@ -7,7 +7,7 @@ used to be part of [ckanext-spatial](https://github.com/ckan/ckanext-spatial).
 **Note:** This is a work in progress, if you can help with [OpenLayers](http://openlayers.org) or [Leaflet](http://leafletjs.com/) development,
 check the Issues section for what needs to be done or add a new issue.
 
-This extension supports CKAN 2.7 onwards, including Python 3 support on CKAN 2.9 or higher.
+This extension supports CKAN 2.10 onwards.
 
 ## Installation
 
