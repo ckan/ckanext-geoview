@@ -2,8 +2,8 @@
 
 {% block page %}
     {%- block styles %}
-        {% set type = 'asset' if h.ckan_version().split('.')[1] | int >= 9 else 'resource' %}
-        {% include 'geoview/snippets/wmts_' ~ type ~ '.html' %}
+        {% asset 'ckanext-geoview/wmts_js' %}
+        {% asset 'ckanext-geoview/wmts_css' %}
     {% endblock %}
 
     {% set map_config = h.get_common_map_config_wmts() %}
