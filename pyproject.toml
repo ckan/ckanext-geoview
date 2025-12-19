@@ -2,7 +2,7 @@
 name = "ckanext-geoview"
 version = "0.2.2"
 description = "Geospatial viewers for CKAN resources"
-readme = "README.rst"
+readme = "README.md"
 authors = [
     {name = "Philippe Duchesne, Adrià Mercader and contributors", email = "tech-team@ckan.org"}
 ]
