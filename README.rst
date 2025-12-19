@@ -55,7 +55,7 @@ To install ckanext-geoview for development:
 3. Install the ckanext-geoview Python package into your python virtual environment::
 
     cd ckanext-geoview
-    python setup.py develop
+    pip install -e .
 
 4. Continue with the main installation instructions above (step 3 onwards).
 
@@ -338,59 +338,31 @@ The following libraries are managed manually as they don't have npm packages:
 * shp2geojson
 
 
------------------------------------
-Registering ckanext-geoview on pypi
------------------------------------
-
-ckanext-geoview should be availabe on PyPI as
-https://pypi.python.org/pypi/ckanext-geoview. If that link doesn't work, then
-you can register the project on PyPI for the first time by following these
-steps:
-
-1. Create a source distribution of the project::
-
-     python setup.py sdist
-
-2. Register the project::
-
-     python setup.py register
-
-3. Upload the source distribution to PyPI::
-
-     python setup.py sdist upload
-
-4. Tag the first release of the project on GitHub with the version number from
-   the ``setup.py`` file. For example if the version number in ``setup.py`` is
-   0.0.1 then do::
-
-       git tag 0.0.1
-       git push --tags
-
-
 ------------------------------------------
 Releasing a new version of ckanext-geoview
 ------------------------------------------
 
-ckanext-geoview is availabe on PyPI as https://pypi.python.org/pypi/ckanext-geoview.
+ckanext-geoview is available on PyPI as https://pypi.python.org/pypi/ckanext-geoview.
 To publish a new version to PyPI follow these steps:
 
-1. Update the version number in the ``setup.py`` file.
+1. Update the version number in the ``pyproject.toml`` file.
    See `PEP 440 <http://legacy.python.org/dev/peps/pep-0440/#public-version-identifiers>`_
    for how to choose version numbers.
 
-2. Create a source distribution of the new version::
+2. Build the distribution::
 
-     python setup.py sdist
+     pip install build
+     python -m build
 
-3. Upload the source distribution to PyPI::
+3. Upload to PyPI::
 
-     python setup.py sdist upload
+     pip install twine
+     twine upload dist/*
 
 4. Tag the new release of the project on GitHub with the version number from
-   the ``setup.py`` file. For example if the version number in ``setup.py`` is
-   0.0.2 then do::
+   the ``pyproject.toml`` file. For example if the version number is 0.2.3 then do::
 
-       git tag 0.0.2
+       git tag 0.2.3
        git push --tags
 
 .. _Philippe Duchesne: https://github.com/pduchesne
