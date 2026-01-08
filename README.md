@@ -338,7 +338,8 @@ http://docs.ckan.org/projects/ckanext-spatial/en/latest/map-widgets.html
 ![Common base layers](http://i.imgur.com/cdiIjkU.png)
 
 > [!WARNING]
-> As of July 2024 the common map configuration is not working with the OpenLayers viewer. Pull requests are welcome to address the issue
+> The OpenLayers viewer does not support the common base layers defined via this mechanism, it will fall back
+> to an OpenStreetMap base layer. Pull requests are welcome to address the issue.
 
 ## Updating the JS libraries
 

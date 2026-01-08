@@ -123,7 +123,7 @@
 
                 } else if (mapConfig.type == 'custom') {
                     mapConfig.type = 'XYZ'
-                } else if (!mapConfig.type || mapConfig.type.toLowerCase() == 'osm') {
+                } else {
 
                     mapConfig.type = 'OSM'
                 }
