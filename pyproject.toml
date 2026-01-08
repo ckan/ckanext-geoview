@@ -1,6 +1,6 @@
 [project]
 name = "ckanext-geoview"
-version = "0.3.0"
+version = "0.3.1"
 description = "Geospatial viewers for CKAN resources"
 readme = "README.md"
 authors = [
