@@ -276,6 +276,21 @@ ckan.views.default_views = ... geojson_view
 You can use the `ckanext.geoview.geojson.max_file_size` configuration option to define the maximum file size (in bytes) that will be rendered in the map widget. Default is 25 Mb.
 Note that this relies on the resource `size` field being set (ie it will only work with uploaded files, not linked externally).
 
+#### Base map (MapBox) example configuration
+
+```
+ckanext.spatial.common_map.type = MapBox
+ckanext.spatial.common_map.mapbox.id = mapbox/streets-v12
+ckanext.spatial.common_map.mapbox.accesstoken = <your_mapbox_public_token>
+```
+
+For envvars:
+```
+CKANEXT__SPATIAL__COMMON_MAP__TYPE=MapBox
+CKANEXT__SPATIAL__COMMON_MAP__MAPBOX__ID=mapbox/streets-v12
+CKANEXT__SPATIAL__COMMON_MAP__MAPBOX__ACCESSTOKEN=<your_mapbox_public_token>
+```
+
 
 ### Leaflet WMTS Viewer
 

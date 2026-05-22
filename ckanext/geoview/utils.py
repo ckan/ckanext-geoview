@@ -151,6 +151,34 @@ def get_common_map_config():
     )
 
 
+def get_common_map_config_for_leaflet():
+    """Normalize common map settings for Leaflet + leaflet-providers.
+
+    * ``ckanext.spatial.common_map.mapbox.id``
+    * ``ckanext.spatial.common_map.mapbox.accesstoken``
+    """
+    raw = dict(get_common_map_config())
+    type_val = toolkit.config.get("ckanext.spatial.common_map.type") or ""
+    if not (isinstance(type_val, str) and type_val.strip().lower() == "mapbox"):
+        return raw
+
+    map_id = toolkit.config.get("ckanext.spatial.common_map.mapbox.id")
+    token = toolkit.config.get("ckanext.spatial.common_map.mapbox.accesstoken")
+
+    out = {
+        "type": "mapbox",
+        "id": "" if map_id in (None, False) else str(map_id),
+        "accessToken": "" if token in (None, False) else str(token),
+    }
+
+    for suffix in ("attribution", "subdomains", "tms"):
+        val = toolkit.config.get("ckanext.spatial.common_map." + suffix)
+        if val is not None:
+            out[suffix] = val
+
+    return out
+
+
 def get_shapefile_viewer_config():
     """
         Returns a dict with all configuration options related to the
