@@ -19,7 +19,7 @@ class TestGetCommonMapConfigForLeaflet(unittest.TestCase):
         mock_cfg_get.side_effect = cfg_get
         mock_gcm.return_value = {"type": "mapbox", "mapbox.id": "ignored"}
         out = utils.get_common_map_config_for_leaflet()
-        self.assertEqual(out["type"], "MapBox")
+        self.assertEqual(out["type"], "mapbox")
         self.assertEqual(out["id"], "mapbox/streets-v12")
         self.assertEqual(out["accessToken"], "pk.test")
 
