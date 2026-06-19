@@ -221,7 +221,7 @@ class GeoJSONView(GeoViewBase):
 
     def get_helpers(self):
         return {
-            "get_common_map_config_geojson": utils.get_common_map_config,
+            "get_common_map_config_geojson": utils.get_common_map_config_for_leaflet,
             "geojson_get_max_file_size": utils.get_max_file_size,
         }
 
@@ -269,7 +269,7 @@ class WMTSView(GeoViewBase):
 
     def get_helpers(self):
         return {
-            "get_common_map_config_wmts": utils.get_common_map_config,
+            "get_common_map_config_wmts": utils.get_common_map_config_for_leaflet,
         }
 
 
@@ -317,6 +317,6 @@ class SHPView(GeoViewBase):
 
     def get_helpers(self):
         return {
-            "get_common_map_config_shp": utils.get_common_map_config,
+            "get_common_map_config_shp": utils.get_common_map_config_for_leaflet,
             "get_shapefile_viewer_config": utils.get_shapefile_viewer_config,
         }

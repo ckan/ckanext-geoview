@@ -37,19 +37,19 @@
 
       var baseLayer;
 
-      map = new L.Map(container, leafletMapOptions);
+      var map = new L.Map(container, leafletMapOptions);
 
-      if (mapConfig.type == 'mapbox') {
-          // MapBox base map
-          if (!mapConfig['mapbox.map_id'] || !mapConfig['mapbox.access_token']) {
-            throw '[CKAN Map Widgets] You need to provide a map ID ([account].[handle]) and an access token when using a MapBox layer. ' +
-                  'See http://www.mapbox.com/developers/api-overview/ for details';
-          }
-
-          baseLayer = L.tileLayer.provider('MapBox', {
-                id: mapConfig['mapbox.map_id'],
-                accessToken: mapConfig['mapbox.access_token']
-          });
+      if (mapConfig.type === 'mapbox') {
+        var mapboxId = mapConfig.id || '';
+        var mapboxToken = mapConfig.accessToken || '';
+        if (!mapboxId || !mapboxToken) {
+          throw '[CKAN Map Widgets] You need to provide a map ID ([account].[handle]) and an access token when using a MapBox layer. ' +
+                'See http://www.mapbox.com/developers/api-overview/ for details';
+        }
+        baseLayer = L.tileLayer.provider('MapBox', {
+          id: mapboxId,
+          accessToken: mapboxToken
+        });
 
       } else if (mapConfig.type == 'custom') {
           // Custom XYZ layer
