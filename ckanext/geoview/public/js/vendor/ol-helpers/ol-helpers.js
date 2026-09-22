@@ -352,39 +352,29 @@ ol.proj.addProjection(createEPSG4326Proj('EPSG:4326:LONLAT', 'enu'));
 
     var pendingEPSGRequests = {};
     var searchEPSG = function(query) {
-        if (pendingEPSGRequests[query])
+        if (pendingEPSGRequests[query]) {
             return pendingEPSGRequests[query];
+        }
 
-        var deferredResult = pendingEPSGRequests[query] = $.Deferred()
+        var deferredResult = pendingEPSGRequests[query] = $.Deferred();
 
-        fetch('https://epsg.io/?format=json&q=' + query).then(function(response) {
-            return response.json();
-        }).then(function(json) {
-            var results = json['results'];
-            if (results && results.length > 0) {
-                for (var i = 0, ii = results.length; i < ii; i++) {
-                    var result = results[i];
-                    if (result) {
-                        var code = result['code'], name = result['name'],
-                            proj4def = result['proj4'], bbox = result['bbox'];
-                        if (code && code.length > 0 && proj4def && proj4def.length > 0) {
-
-                            var newProjCode = 'EPSG:' + code;
-                            proj4.defs(newProjCode, proj4def);
-                            var newProj = ol.proj.get(newProjCode);
-
-                            deferredResult.resolve(newProj);
-                        }
-                    }
-                }
+        fetch('https://epsg.io/' + query + '.proj4').then(function(response) {
+        }).then(function(response) {
+            const proj4def = response.text();
+            var code = query;
+            if (code && code.length > 0 && proj4def && proj4def.length > 0) {
+                var newProjCode = 'EPSG:' + code;
+                proj4.defs(newProjCode, proj4def);
+                var newProj = ol.proj.get(newProjCode);
+                deferredResult.resolve(newProj);
             }
             deferredResult.resolve(undefined); // resolve with an error ?
         });
 
         return deferredResult.then(function() {
-            delete pendingEPSGRequests[query]
+            delete pendingEPSGRequests[query];
         });
-    }
+    };
 
     class LoggingMap extends ol.Map {
         constructor(options) {
@@ -1333,11 +1323,16 @@ ol.proj.addProjection(createEPSG4326Proj('EPSG:4326:LONLAT', 'enu'));
 
                                         // first look for 4326 projection
                                         if (allSrs.indexOf("EPSG:4326") >= 0)
-                                            srs = ol.proj.get("EPSG:4326")
+                                            srs = ol.proj.get("EPSG:4326");
                                         else {
                                             for (var srsIdx = 0, length = allSrs.length; srsIdx < length; srsIdx++) {
+                                                // alternate format, https://www.opengis.net/def/crs/EPSG/0/4326
+                                                if (allSrs[srsIdx].match(/EPSG\/0\/4326$/)) {
+                                                    srs = ol.proj.get("EPSG:4326");
+                                                    break;
+                                                }
                                                 if (allSrs[srsIdx].match(/urn:ogc:def:crs:EPSG:.*:4326$/)) {
-                                                    srs = ol.proj.get(allSrs[srsIdx])
+                                                    srs = ol.proj.get(allSrs[srsIdx]);
                                                     break;
                                                 }
                                             }
@@ -1346,13 +1341,17 @@ ol.proj.addProjection(createEPSG4326Proj('EPSG:4326:LONLAT', 'enu'));
                                         if (!srs) {
                                             // look for current map projection in advertised projections
                                             if (map && map.getView().getProjection() && allSrs.indexOf(map.getView().getProjection().getCode()) >= 0)
-                                                srs = map.getView().getProjection()
+                                                srs = map.getView().getProjection();
 
                                             // fallback on layer projection, if supported
                                             else if (window.Proj4js && window.Proj4js.Proj(allSrs[0]))
-                                                srs = ol.proj.get(allSrs[0])
+                                                srs = ol.proj.get(allSrs[0]);
                                             else {
-                                                srs = searchEPSG(allSrs[0].split(':').pop())
+                                                const query = allSrs[0].split(':').pop();
+                                                if (query.includes('/')) {
+                                                    query = query.split('/').pop();
+                                                }
+                                                srs = searchEPSG(query);
                                             }
                                         }
                                     }
