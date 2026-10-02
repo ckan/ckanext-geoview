@@ -41,20 +41,20 @@ def proxy_service_resource(request, context, data_dict):
     response), we only transfer as long as the transferred data is less
     than the maximum file size. """
     resource_id = data_dict["resource_id"]
+
     log.info("Proxify resource {id}".format(id=resource_id))
-    resource = toolkit.get_action("resource_show")(context, {"id": resource_id})
+    try:
+        resource = toolkit.get_action(u'resource_show')(context, {u'id': resource_id})
+    except toolkit.ObjectNotFound:
+        return toolkit.abort(404, toolkit._(u'Resource not found'))
+
     url = resource["url"]
-    return proxy_service_url(request, url)
-
-
-def proxy_service_url(req, url):
-
     parts = urlsplit(url)
+
     if not parts.scheme or not parts.netloc:
         toolkit.abort(409, detail="Invalid URL.")
 
     try:
-        method = req.environ["REQUEST_METHOD"]
 
         params = parse_qs(parts.query)
 
@@ -74,28 +74,13 @@ def proxy_service_url(req, url):
         proxy = toolkit.config.get('ckan.download_proxy')
         proxies = {'http': proxy, 'https': proxy} if proxy else None
 
-        if method == "POST":
-            headers = {"Content-Type": req.environ["CONTENT_TYPE"]}
-            body = req.body
-            r = requests.post(
-                url,
-                data=body,
-                headers=headers,
-                stream=True,
-                timeout=TIMEOUT,
-                proxies=proxies,
-            )
-        else:
-            r = requests.get(
-                url,
-                params=req.query_string,
-                stream=True,
-                timeout=TIMEOUT,
-                proxies=proxies,
-            )
-
-        # log.info('Request: {req}'.format(req=r.request.url))
-        # log.info('Request Headers: {h}'.format(h=r.request.headers))
+        r = requests.get(
+            url,
+            params=request.query_string,
+            stream=True,
+            timeout=TIMEOUT,
+            proxies=proxies,
+        )
 
         cl = r.headers.get("content-length")
         if cl and int(cl) > MAX_FILE_SIZE:
@@ -134,23 +119,21 @@ def proxy_service_url(req, url):
                         + url
                     ).format(allowed=MAX_FILE_SIZE, actual=length),
                 )
-
     except requests.exceptions.HTTPError as error:
-        details = "Could not proxy resource. Server responded with %s %s" % (
-            error.response.status_code,
-            error.response.reason,
-        )
-        toolkit.abort(409, detail=details)
+        details = 'Could not proxy resource.'
+        if error.response is not None:
+            details += ' Server responded with %s %s' % (
+                error.response.status_code, error.response.reason
+            )
+        return toolkit.abort(409, detail=details)
     except requests.exceptions.ConnectionError as error:
-        details = (
-            """Could not proxy resource because a
-                            connection error occurred. %s"""
-            % error
-        )
-        toolkit.abort(502, detail=details)
-    except requests.exceptions.Timeout as error:
-        details = "Could not proxy resource because the connection timed out."
-        toolkit.abort(504, detail=details)
+        details = u'''Could not proxy resource because a
+                            connection error occurred. %s''' % error
+        return toolkit.abort(502, detail=details)
+    except requests.exceptions.Timeout:
+        details = u'Could not proxy resource because the connection timed out.'
+        return toolkit.abort(504, detail=details)
+
     return response
 
 
