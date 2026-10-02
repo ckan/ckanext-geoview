@@ -21,12 +21,6 @@ def proxy_service(id, resource_id):
     return utils.proxy_service_resource(p.toolkit.request, context, data_dict)
 
 
-def proxy_service_url(map_id):
-    url = toolkit.config.get("ckanext.spatial.common_map." + map_id + ".url")
-    req = p.toolkit.request
-    return utils.proxy_service_url(req, url)
-
-
 def get_blueprints():
     return [service_proxy]
 
@@ -34,7 +28,4 @@ def get_blueprints():
 service_proxy.add_url_rule(
     "/dataset/<id>/resource/<resource_id>/service_proxy",
     view_func=proxy_service,
-)
-service_proxy.add_url_rule(
-    "/basemap_service/<map_id>", view_func=proxy_service_url
 )
