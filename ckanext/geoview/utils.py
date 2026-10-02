@@ -71,13 +71,28 @@ def proxy_service_url(req, url):
 
         parts = parts._replace(fragment="")  # remove potential fragment
         url = parts.geturl()
+        proxy = toolkit.config.get('ckan.download_proxy')
+        proxies = {'http': proxy, 'https': proxy} if proxy else None
+
         if method == "POST":
-            length = int(req.environ["CONTENT_LENGTH"])
             headers = {"Content-Type": req.environ["CONTENT_TYPE"]}
             body = req.body
-            r = requests.post(url, data=body, headers=headers, stream=True, timeout=TIMEOUT)
+            r = requests.post(
+                url,
+                data=body,
+                headers=headers,
+                stream=True,
+                timeout=TIMEOUT,
+                proxies=proxies,
+            )
         else:
-            r = requests.get(url, params=req.query_string, stream=True, timeout=TIMEOUT)
+            r = requests.get(
+                url,
+                params=req.query_string,
+                stream=True,
+                timeout=TIMEOUT,
+                proxies=proxies,
+            )
 
         # log.info('Request: {req}'.format(req=r.request.url))
         # log.info('Request Headers: {h}'.format(h=r.request.headers))
